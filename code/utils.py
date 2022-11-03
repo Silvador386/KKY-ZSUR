@@ -1,4 +1,7 @@
 import numpy as np
+from functools import wraps
+import time
+
 
 
 def L2_distance_matrix(A, B):
@@ -33,6 +36,18 @@ def L2_distance_matrix(A, B):
     return dists
 
 
+def timeit(func):
+    @wraps(func)
+    def timeit_wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        results = func(*args, **kwargs)
+        end = time.perf_counter()
+        total = end - start
+        print(f"Function: {func.__name__} Runtime: {total}")
+        return results
+    return timeit_wrapper
+
+
 def prep_data(dists_matrix):
     upper_dist_list = []
 
@@ -47,3 +62,20 @@ def prep_data(dists_matrix):
     upper_dist_list = upper_dist_list[upper_dist_list[:, 0].argsort()]
 
     return upper_dist_list
+
+
+class ClassCluster:
+    def __init__(self, vector):
+        self.vectors = [vector]
+
+    def add_vector(self, vector):
+        self.vectors.append(vector)
+
+    def is_vector_in_class(self, vector):
+        for v in self.vectors:
+            if v == vector:
+                return True
+        return False
+
+    def merge_classes(self, class_b):
+        self.vectors.extend(class_b.vectors)
