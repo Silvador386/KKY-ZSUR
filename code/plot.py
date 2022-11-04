@@ -8,3 +8,9 @@ def plot_2D(data):
     plt.ylabel("2. column")
     plt.grid()
     plt.show()
+
+
+def plot_vector(*data):
+    for i in data:
+        plt.plot(i, scaley="log", marker="o")
+    plt.show()

@@ -1,6 +1,8 @@
 import numpy as np
-from utils import timeit
+from utils import timeit, count_cls
 from tqdm import tqdm
+
+
 
 
 @timeit
@@ -26,17 +28,19 @@ def cluster_level(data, dists_matrix):
         dists_matrix = np.delete(dists_matrix, min_col, 0)
         dists_matrix = np.delete(dists_matrix, min_col, 1)
 
-    cls_count = 1
+    # cls_count = 1
+    #
+    # levels_normed = levels / np.linalg.norm(levels)
+    #
+    # avg = np.average(levels_normed)
+    # std = np.std(levels_normed)
+    # value = abs(avg - std)
+    #
+    # for i, level in enumerate(levels_normed[:-1]):
+    #     if levels_normed[i+1] - level > 0.15:
+    #         cls_count += 1
+    #
+    # cache = (avg, std, levels_normed)
+    # return cls_count, cache
 
-    levels_normed = levels / np.linalg.norm(levels)
-
-    avg = np.average(levels_normed)
-    std = np.std(levels_normed)
-    value = abs(avg - std)
-
-    for i, level in enumerate(levels_normed[:-1]):
-        if levels_normed[i+1] - level > 0.15:
-            cls_count += 1
-
-    cache = (avg, std, levels_normed)
-    return cls_count, cache
+    return count_cls(levels)

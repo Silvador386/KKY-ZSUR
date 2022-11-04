@@ -1,6 +1,8 @@
 import numpy as np
-from utils import timeit
+from utils import timeit, count_cls
 from tqdm import tqdm
+
+from plot import plot_vector
 
 
 @timeit
@@ -27,18 +29,6 @@ def run_cluster(data, dists_matrix, chain_idx_row=0):
         else:
             chain_idx_row = min_col - 1
 
-    num_cls = 1
-    distances = np.array(distances)
-    distances_normed = distances / np.linalg.norm(distances)
-    avg = np.average(distances_normed)
-    std = np.std(distances_normed)
-
-    distances_normed = np.sort(distances_normed)
-    for i, distance in enumerate(distances_normed[:-1]):
-        if distances_normed[i+1] - distance > 0.1:
-            num_cls += 1
-
-    cache = (avg, std, distances_normed)
-    return num_cls, cache
+    return count_cls(distances)
 
 
