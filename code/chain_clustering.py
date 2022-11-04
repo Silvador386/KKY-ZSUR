@@ -44,7 +44,7 @@ def run_cluster(data, dists_matrix, chain_idx_row=0):
         if step > (step_avg + 3 * step_std):
             num_cls += 1
 
-    plot_vector(step_diff, distances_normed)
+    # plot_vector(step_diff, distances_normed)
     # print(step_avg, step_std, step_diff[-10:-1])
 
     cache = (avg, std, distances_normed)

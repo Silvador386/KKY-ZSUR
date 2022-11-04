@@ -7,7 +7,7 @@ from utils import timeit
 
 
 @timeit
-def maximin_cluster(data, dists_matrix, q=0.3):
+def maximin_cluster(data, dists_matrix, q=0.4):
     dists_matrix = dists_matrix.copy()
     center_idxs = []
 
