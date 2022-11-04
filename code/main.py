@@ -10,7 +10,7 @@ DATA_PATH = "../data/data.txt"
 def main():
     data = load.load_data(data_path=DATA_PATH)
 
-    data_sample = data[np.random.randint(data.shape[0], size=3000)]
+    data_sample = data[np.random.randint(data.shape[0], size=10)]
 
 
 

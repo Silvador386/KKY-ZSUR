@@ -3,8 +3,6 @@ from utils import timeit, count_cls
 from tqdm import tqdm
 
 
-
-
 @timeit
 def cluster_level(data, dists_matrix):
     dists_matrix = dists_matrix.copy()
@@ -16,9 +14,6 @@ def cluster_level(data, dists_matrix):
         min_row, min_col = np.unravel_index(np.argmin(dists_matrix + mask), dists_matrix.shape)
 
         levels.append(dists_matrix[min_row][min_col])
-
-        # row_mins = np.minimum(dists_matrix[min_row, :], dists_matrix[min_col, :])
-        # col_mins = np.minimum(dists_matrix[:, min_row], dists_matrix[:, min_col])
 
         min_vector = np.minimum(dists_matrix[min_row, :], dists_matrix[min_col, :])
 
