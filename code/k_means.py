@@ -2,9 +2,10 @@ import random
 
 import numpy as np
 from utils import L2_distance_matrix
+from plot import plot_2D
 
 
-def k_means_div(data, num_cls):
+def k_means_div(data, num_cls, plot=False):
     data = data.copy()
 
     center_idxs_list = [[value] for value in random.sample(range(data.shape[0]), num_cls)]
@@ -31,6 +32,13 @@ def k_means_div(data, num_cls):
 
         center_idxs_list = [[] for _ in range(num_cls)]
         center_data = new_center_data
+
+    classed_data = [data[center_idxs_list[i]] for i, _ in enumerate(center_idxs_list)]
+    if plot:
+        data2plot_named = {f"Center: {center[0]:.2f}, {center[1]:.2f}": data for data, center in zip(classed_data, new_center_data)}
+        plot_2D(**data2plot_named)
+
+    return classed_data
 
 
 

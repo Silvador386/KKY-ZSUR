@@ -1,13 +1,24 @@
 import matplotlib.pyplot as plt
 
 
-def plot_2D(data):
-    # plt.plot(data[:, 0], data[:, 1], linestyle="none", color="r", marker="o")
-    plt.scatter(data[:, 0], data[:, 1], color="r")
-    plt.xlabel("1. column")
-    plt.ylabel("2. column")
-    plt.grid()
-    plt.show()
+def plot_2D(*args, **kwargs):
+    # plt.plot(args[:, 0], args[:, 1], linestyle="none", color="r", marker="o")
+    if args:
+        for data in args[0]:
+            plt.scatter(data[:, 0], data[:, 1])
+        plt.xlabel("1. column")
+        plt.ylabel("2. column")
+        plt.grid()
+        plt.show()
+
+    if kwargs:
+        for key, data in kwargs.items():
+            plt.scatter(data[:, 0], data[:, 1], label=key)
+        plt.legend()
+        plt.xlabel("1. column")
+        plt.ylabel("2. column")
+        plt.grid()
+        plt.show()
 
 
 def plot_vector(*data):

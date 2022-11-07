@@ -1,10 +1,11 @@
 import numpy as np
-from utils import timeit, count_cls
+from utils import timeit
 from tqdm import tqdm
+from plot import plot_vector
 
 
 @timeit
-def cluster_level(data, dists_matrix):
+def cluster_level(data, dists_matrix, plot=False):
     dists_matrix = dists_matrix.copy()
 
     levels = []
@@ -23,19 +24,28 @@ def cluster_level(data, dists_matrix):
         dists_matrix = np.delete(dists_matrix, min_col, 0)
         dists_matrix = np.delete(dists_matrix, min_col, 1)
 
-    # cls_count = 1
-    #
-    # levels_normed = levels / np.linalg.norm(levels)
-    #
-    # avg = np.average(levels_normed)
-    # std = np.std(levels_normed)
-    # value = abs(avg - std)
-    #
-    # for i, level in enumerate(levels_normed[:-1]):
-    #     if levels_normed[i+1] - level > 0.15:
-    #         cls_count += 1
-    #
-    # cache = (avg, std, levels_normed)
-    # return cls_count, cache
+    return count_cls(levels, plot)
 
-    return count_cls(levels)
+
+def count_cls(levels, plot):
+    num_cls = 1
+    distances = np.array(levels)
+    distances_normed = distances / np.linalg.norm(distances)
+    avg = np.average(distances_normed)
+    std = np.std(distances_normed)
+    #
+    distances_normed = np.sort(distances_normed)
+
+    step_diff = distances_normed[1:] - distances_normed[:-1]
+    step_avg = np.average(step_diff)
+    step_std = np.std(step_diff)
+
+    for step in step_diff:
+        if step > step_avg + 4*step_std:
+            num_cls += 1
+
+    if plot:
+        plot_vector(step_diff, distances_normed)
+
+    cache = (avg, std, distances_normed)
+    return num_cls, cache

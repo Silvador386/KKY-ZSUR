@@ -18,13 +18,13 @@ def count_cls(distances):
     step_std = np.std(step_diff)
 
     for step in step_diff:
-        if step > (step_avg + 3 * step_std):
+        if step > (3*step_avg + 5 * step_std):
             num_cls += 1
 
     # plot_vector(step_diff, distances_normed)
     # print(step_avg, step_std, step_diff[-10:-1])
 
-    cache = (avg, std, distances_normed)
+    cache = (step_avg, step_std, distances_normed)
     return num_cls, cache
 
 
@@ -33,8 +33,8 @@ def L2_distance_matrix(A, B):
     # # (x - y)^2 = x^2 + y^2 -2xy
 
 
-    # X = A  # test data (m, d)
-    # X_train = A  # train data (n, d)
+    # X = A  # test args (m, d)
+    # X_train = A  # train args (n, d)
 
     # this has the same affect as taking the dot product of each row with itself
     # x2 = np.sum(X ** 2, axis=1)  # shape of (m)

@@ -13,10 +13,10 @@ def main():
 
     data_sample = data[np.random.randint(data.shape[0], size=500)]
 
-    # plot.plot_2D(data)
+    # plot.plot_2D(args)
     cls_count = clustering.run_cluster_methods(data_sample)
     print(f"Number of classes:{cls_count}")
-    k_means.k_means_div(data_sample, cls_count)
+    k_means.k_means_div(data_sample, cls_count, plot=True)
 
 
 if __name__ == "__main__":
