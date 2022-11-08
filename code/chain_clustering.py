@@ -1,12 +1,12 @@
 import numpy as np
-from utils import timeit, count_cls
+from utils import timeit
 from tqdm import tqdm
 
 from plot import plot_vector
 
 
 @timeit
-def run_cluster(data, dists_matrix, chain_idx_row=0):
+def run_cluster(data, dists_matrix, chain_idx_row=0, plot=False):
     num_vectors = data.shape[0]
     dists_matrix = dists_matrix.copy()
 
@@ -28,11 +28,13 @@ def run_cluster(data, dists_matrix, chain_idx_row=0):
         else:
             chain_idx_row = min_col - 1
 
+    return count_cls(distances, plot)
+
+
+def count_cls(distances, plot):
     num_cls = 1
     distances = np.array(distances)
     distances_normed = distances / np.linalg.norm(distances)
-    avg = np.average(distances_normed)
-    std = np.std(distances_normed)
 
     distances_normed = np.sort(distances_normed)
 
@@ -41,13 +43,13 @@ def run_cluster(data, dists_matrix, chain_idx_row=0):
     step_std = np.std(step_diff)
 
     for step in step_diff:
-        if step > (step_avg + 3 * step_std):
+        if step > (3*step_avg + 5 * step_std):
             num_cls += 1
 
-    # plot_vector(step_diff, distances_normed)
-    # print(step_avg, step_std, step_diff[-10:-1])
+    if plot:
+        plot_vector(step_diff, distances_normed)
 
-    cache = (avg, std, distances_normed)
+    cache = (step_avg, step_std, distances_normed)
     return num_cls, cache
 
 

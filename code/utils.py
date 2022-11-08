@@ -4,34 +4,8 @@ import time
 from plot import plot_vector
 
 
-def count_cls(distances):
-    num_cls = 1
-    distances = np.array(distances)
-    distances_normed = distances / np.linalg.norm(distances)
-    avg = np.average(distances_normed)
-    std = np.std(distances_normed)
-
-    distances_normed = np.sort(distances_normed)
-
-    step_diff = distances_normed[1:] - distances_normed[:-1]
-    step_avg = np.average(step_diff)
-    step_std = np.std(step_diff)
-
-    for step in step_diff:
-        if step > (3*step_avg + 5 * step_std):
-            num_cls += 1
-
-    # plot_vector(step_diff, distances_normed)
-    # print(step_avg, step_std, step_diff[-10:-1])
-
-    cache = (step_avg, step_std, distances_normed)
-    return num_cls, cache
-
-
-
 def L2_distance_matrix(A, B):
     # # (x - y)^2 = x^2 + y^2 -2xy
-
 
     # X = A  # test args (m, d)
     # X_train = A  # train args (n, d)

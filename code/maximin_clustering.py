@@ -1,3 +1,4 @@
+import math
 import random
 import numpy as np
 from itertools import combinations
@@ -7,7 +8,7 @@ from utils import timeit
 
 
 @timeit
-def maximin_cluster(data, dists_matrix, q=0.3):
+def maximin_cluster(data, dists_matrix, q=math.pi):
     dists_matrix = dists_matrix.copy()
     center_idxs = []
 

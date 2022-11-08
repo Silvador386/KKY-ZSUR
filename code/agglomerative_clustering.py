@@ -31,9 +31,6 @@ def count_cls(levels, plot):
     num_cls = 1
     distances = np.array(levels)
     distances_normed = distances / np.linalg.norm(distances)
-    avg = np.average(distances_normed)
-    std = np.std(distances_normed)
-    #
     distances_normed = np.sort(distances_normed)
 
     step_diff = distances_normed[1:] - distances_normed[:-1]
@@ -47,5 +44,5 @@ def count_cls(levels, plot):
     if plot:
         plot_vector(step_diff, distances_normed)
 
-    cache = (avg, std, distances_normed)
+    cache = (step_avg, step_std, distances_normed)
     return num_cls, cache

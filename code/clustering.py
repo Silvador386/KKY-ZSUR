@@ -19,7 +19,7 @@ def run_cluster_methods(data):
     print(f"Num_cls: {num_cls}, Avg: {cache[0]}, Std: {cache[1]}")
 
     chain_cls = []
-    for i in range(3):
+    for i in range(10):
         num_cls, cache = run_cluster(data, dists_matrix, random.randint(0, data.shape[0]))
         chain_cls.append(num_cls)
         print(f"Num_cls: {num_cls}, Avg: {cache[0]}, Std: {cache[1]}")
