@@ -43,7 +43,7 @@ def count_cls(distances, plot):
     step_std = np.std(step_diff)
 
     for step in step_diff:
-        if step > (3*step_avg + 5 * step_std):
+        if step > (1*step_avg + 3 * step_std):
             num_cls += 1
 
     if plot:

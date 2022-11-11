@@ -38,7 +38,7 @@ def k_means_div(data, num_cls, plot=False):
         data2plot_named = {f"Center: {center[0]:.2f}, {center[1]:.2f}": data for data, center in zip(classed_data, new_center_data)}
         plot_2D(**data2plot_named)
 
-    return classed_data
+    return classed_data, new_center_data
 
 
 

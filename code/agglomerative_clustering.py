@@ -9,7 +9,7 @@ def cluster_level(data, dists_matrix, plot=False):
     dists_matrix = dists_matrix.copy()
 
     levels = []
-    for i in tqdm(range(dists_matrix.shape[0]-1)):
+    for _ in tqdm(range(dists_matrix.shape[0]-1)):
         mask = np.zeros_like(dists_matrix)
         np.fill_diagonal(mask, np.infty)
         min_row, min_col = np.unravel_index(np.argmin(dists_matrix + mask), dists_matrix.shape)
