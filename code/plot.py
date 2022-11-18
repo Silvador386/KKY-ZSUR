@@ -13,6 +13,9 @@ def plot_2D(*args, **kwargs):
 
     if kwargs:
         for key, data in kwargs.items():
+            if key == "title":
+                plt.title(data)
+                continue
             plt.scatter(data[:, 0], data[:, 1], label=key)
         plt.legend()
         plt.xlabel("1. column")

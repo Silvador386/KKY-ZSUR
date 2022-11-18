@@ -91,10 +91,11 @@ def optimize(classed_data, center_data, plot=True):
                 center_data[A_j_cls] = np.average(data[np.where(data[:, -1] == A_j_cls)][:, :-1], axis=0)
 
     data = data[data[:, -1].argsort()]
-    classed_data = np.split(data[:, :-1], np.where(np.diff(data[:,-1]))[0]+1)
+    classed_data = np.split(data[:, :-1], np.where(np.diff(data[:, -1]))[0]+1)
 
     if plot:
-        data2plot_named = {f"Center: {center[0]:.2f}, {center[1]:.2f}": data for data, center in zip(classed_data, center_data)}
+        data2plot_named = {f"Center: {center[0]:.2f}, {center[1]:.2f}": data
+                           for data, center in zip(classed_data, center_data)}
         plot_2D(**data2plot_named)
 
     return classed_data

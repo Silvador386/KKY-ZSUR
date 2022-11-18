@@ -35,6 +35,14 @@ def L2_distance_matrix(A, B):
     return dists
 
 
+def find_cls_data_centers(data):
+    center_data = []
+    for cls_data in data:
+        center_data.append(np.average(cls_data, axis=1))
+
+    return center_data
+
+
 def timeit(func):
     @wraps(func)
     def timeit_wrapper(*args, **kwargs):
@@ -46,35 +54,3 @@ def timeit(func):
         return results
     return timeit_wrapper
 
-
-def prep_data(dists_matrix):
-    upper_dist_list = []
-
-    triu_idxs = np.triu_indices_from(dists_matrix, k=1)
-
-    data = dists_matrix[triu_idxs]
-
-    for dist, idx1, idx2 in zip(data, *triu_idxs):
-        upper_dist_list.append([dist, idx1, idx2])
-
-    upper_dist_list = np.array(upper_dist_list)
-    upper_dist_list = upper_dist_list[upper_dist_list[:, 0].argsort()]
-
-    return upper_dist_list
-
-
-class ClassCluster:
-    def __init__(self, vector):
-        self.vectors = [vector]
-
-    def add_vector(self, vector):
-        self.vectors.append(vector)
-
-    def is_vector_in_class(self, vector):
-        for v in self.vectors:
-            if v == vector:
-                return True
-        return False
-
-    def merge_classes(self, class_b):
-        self.vectors.extend(class_b.vectors)
