@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from utils import L2_distance_matrix
+from utils import L2_distance_matrix, find_cls_data_centers
 from plot import plot_2D
 
 
@@ -14,14 +14,20 @@ def k_means_div(data, num_cls, plot=False):
 
         for idx, row in enumerate(dists_matrix):
             min = np.argmin(row)
-            if idx not in center_idxs_list:
+            if idx not in center_idxs_list[min]:
                 center_idxs_list[min].append(idx)
 
-        new_center_data =[]
+        classed_data = []
         for center_idxs in center_idxs_list:
-            mid_vector = data[center_idxs, :]
-            avg = np.average(mid_vector, axis=0)
-            new_center_data.append(avg)
+            classed_data.append(data[center_idxs])
+
+        new_center_data = find_cls_data_centers(classed_data)
+
+        # new_center_data = []
+        # for center_idxs in center_idxs_list:
+        #     mid_vector = data[center_idxs, :]
+        #     avg = np.average(mid_vector, axis=0)
+        #     new_center_data.append(avg)
 
         new_center_data = np.array(new_center_data)
 
@@ -31,9 +37,10 @@ def k_means_div(data, num_cls, plot=False):
         center_idxs_list = [[] for _ in range(num_cls)]
         center_data = new_center_data
 
-    classed_data = [data[center_idxs_list[i]] for i, _ in enumerate(center_idxs_list)]
+
     if plot:
-        data2plot_named = {f"Center: {center[0]:.2f}, {center[1]:.2f}": data for data, center in zip(classed_data, new_center_data)}
+        data2plot_named = {f"Center: {center[0]:.2f}, {center[1]:.2f}": data
+                           for data, center in zip(classed_data, new_center_data)}
         data2plot_named["title"] = "K - Means"
         plot_2D(**data2plot_named)
 

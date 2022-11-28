@@ -47,8 +47,9 @@ from plot import plot_2D
 #     return classed_data
 
 
-def optimize(classed_data, center_data, plot=True):
+def optimize(classed_data, center_data, plot=False):
     data = np.array([np.append(row, cls_idx) for cls_idx, data_class in enumerate(classed_data) for row in data_class])
+    center_data = np.array(center_data)
     num_R = len(center_data)
     cls_sizes = np.array([cls_data.shape[0] for cls_data in classed_data])
 
@@ -96,6 +97,7 @@ def optimize(classed_data, center_data, plot=True):
     if plot:
         data2plot_named = {f"Center: {center[0]:.2f}, {center[1]:.2f}": data
                            for data, center in zip(classed_data, center_data)}
+        data2plot_named["title"] = "Iterative Optimization"
         plot_2D(**data2plot_named)
 
     return classed_data

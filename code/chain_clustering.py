@@ -12,7 +12,7 @@ def run_cluster(data, dists_matrix, chain_idx_row=0, plot=False):
 
     distances = []
 
-    for i in tqdm(range(num_vectors)):
+    for _ in tqdm(range(num_vectors)):
         mask = np.zeros_like(dists_matrix)
         np.fill_diagonal(mask, np.infty)
 
@@ -43,7 +43,7 @@ def count_cls(distances, plot):
     step_std = np.std(step_diff)
 
     for step in step_diff:
-        if step > (1*step_avg + 3 * step_std):
+        if step > (1*step_avg + 4 * step_std):
             num_cls += 1
 
     if plot:

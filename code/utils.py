@@ -38,7 +38,7 @@ def L2_distance_matrix(A, B):
 def find_cls_data_centers(data):
     center_data = []
     for cls_data in data:
-        center_data.append(np.average(cls_data, axis=1))
+        center_data.append(np.average(cls_data, axis=0))
 
     return center_data
 
