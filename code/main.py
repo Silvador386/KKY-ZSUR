@@ -22,10 +22,14 @@ def main():
     cls_count = clustering.run_cluster_methods(data_sample)
     print(f"Number of classes:{cls_count}")
 
-    classed_data, center_data = n_binary_division.run(data_sample, cls_count, plot=True)
-    optimize(classed_data, center_data, plot=True)
-    classed_data, center_data = k_means.k_means_div(data_sample, cls_count, plot=True)
-    optimize(classed_data, center_data, plot=True)
+    classed_data, center_data, error_cls = n_binary_division.run(data_sample, cls_count, plot=True)
+    print(f"Class error non-binary:  {sum(error_cls)}")
+    classed_data, total_error = optimize(classed_data, center_data, plot=True)
+    print(f"Total error non-b opt:   {total_error}")
+    classed_data, center_data, error_cls = k_means.k_means_div(data_sample, cls_count, plot=True)
+    print(f"Class error k-means:     {sum(error_cls)}")
+    classed_data, total_error = optimize(classed_data, center_data, plot=True)
+    print(f"Total error k-means opt: {total_error}")
 
 
 if __name__ == "__main__":

@@ -12,22 +12,19 @@ def k_means_div(data, num_cls, plot=False):
     while True:
         dists_matrix = L2_distance_matrix(data, center_data)
 
+        error_cls = [0 for i, _ in enumerate(center_idxs_list)]
+
         for idx, row in enumerate(dists_matrix):
-            min = np.argmin(row)
-            if idx not in center_idxs_list[min]:
-                center_idxs_list[min].append(idx)
+            min_row_idx = np.argmin(row)
+            if idx not in center_idxs_list[min_row_idx]:
+                error_cls[min_row_idx] += row[min_row_idx]
+                center_idxs_list[min_row_idx].append(idx)
 
         classed_data = []
         for center_idxs in center_idxs_list:
             classed_data.append(data[center_idxs])
 
         new_center_data = find_cls_data_centers(classed_data)
-
-        # new_center_data = []
-        # for center_idxs in center_idxs_list:
-        #     mid_vector = data[center_idxs, :]
-        #     avg = np.average(mid_vector, axis=0)
-        #     new_center_data.append(avg)
 
         new_center_data = np.array(new_center_data)
 
@@ -44,7 +41,7 @@ def k_means_div(data, num_cls, plot=False):
         data2plot_named["title"] = "K - Means"
         plot_2D(**data2plot_named)
 
-    return classed_data, new_center_data
+    return classed_data, new_center_data, error_cls
 
 
 

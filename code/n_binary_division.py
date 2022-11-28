@@ -30,7 +30,7 @@ def run(data, num_cls, plot=False):
         data2plot_named["title"] = "Non - Binary Division"
         plot_2D(**data2plot_named)
 
-    return classed_data, center_data
+    return classed_data, center_data, error_cls
 
 
 def cluster_err(cls_center_data, num_cls=2):
