@@ -38,7 +38,7 @@ def plot_vector(*data):
 
 def plot_mesh(mesh_data, mesh_cls_idxs, classed_data, **kwargs):
     data_to_scatter_plot = []
-    for i in range(np.max(mesh_cls_idxs)+1):
+    for i in range(int(np.max(mesh_cls_idxs)+1)):
         mask = mesh_cls_idxs == i
         sub_data = mesh_data[mask]
         data_to_scatter_plot.append(sub_data)
