@@ -4,7 +4,9 @@ import numpy as np
 import clustering
 import data_division
 import classification
+from nn import neural_network
 from utils import timeit
+
 
 
 DATA_PATH = "../data/data.txt"
@@ -24,7 +26,8 @@ def main():
     print(f"Number of classes:{num_cls}")
 
     classed_data, center_data, total_error = data_division.run_classification(data_sample, num_cls, plot_option)
-    classification.run_classifiers(classed_data, center_data, plot_option)
+    # classification.run_classifiers(classed_data, center_data, plot_option)
+    neural_network.run(classed_data)
 
 
 if __name__ == "__main__":
