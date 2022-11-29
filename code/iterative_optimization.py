@@ -56,5 +56,5 @@ def optimize(classed_data, center_data, plot=False):
         data2plot_named["title"] = "Iterative Optimization"
         plot_2D(**data2plot_named)
 
-    return classed_data, total_error
+    return classed_data, center_data, total_error
 
