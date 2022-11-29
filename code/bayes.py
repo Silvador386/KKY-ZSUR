@@ -1,42 +1,23 @@
 from utils import L2_distance_matrix
+from plot import plot_2D, generate_mesh
 import matplotlib.pyplot as plt
 import numpy as np
 
 
-def bayes(classed_data):
+def bayes(classed_data, center_data, plot=True):
     classed_data = np.copy(classed_data)
-    num_cls = len(classed_data)
-    cls_num_samples = [len(single_cls_data) for single_cls_data in classed_data]
-    cls_middle_values = [np.average(single_cls_data, axis=0) for single_cls_data in classed_data]
+    cls_middle_values = center_data
     cov_matrices = [cov(single_cls_data, cls_middle_value) for single_cls_data, cls_middle_value in
                      zip(classed_data, cls_middle_values)]
 
-    # cov_matrix2 = [np.cov(single_cls_data.T) for single_cls_data in classed_data]
     mesh = generate_mesh(classed_data)
     gauss_distribs = []
     for cls_middle, cov_matrix in zip(cls_middle_values, cov_matrices):
         gauss_distribs.append([gauss_distribution(x, cls_middle, cov_matrix) for x in mesh])
 
     surface_cls = np.argmax(np.vstack(gauss_distribs), axis=0)
-    for i in range(3):
-        mask = surface_cls == i
-        sub_data = mesh[mask]
-        plt.scatter(sub_data[:, 0], sub_data[:, 1])
-
-    for single_class_data in classed_data:
-        plt.scatter(single_class_data[:, 0], single_class_data[:, 1])
-    plt.show()
-
-
-def generate_mesh(classed_data, num_points=100):
-    merged_data = np.concatenate(classed_data)
-    max_values = np.max(merged_data, axis=0)
-    min_values = np.min(merged_data, axis=0)
-
-    x = np.linspace(min_values[0]-2, max_values[0]+2, num_points)
-    y = np.linspace(min_values[1] - 2, max_values[1] + 2, num_points)
-    points = [[x_value, y_value] for x_value in x for y_value in y]
-    return np.array(points)
+    if plot:
+        plot_mesh(mesh, surface_cls, classed_data)
 
 
 def gauss_distribution(x, cls_middle, cov_matrix):
@@ -45,10 +26,14 @@ def gauss_distribution(x, cls_middle, cov_matrix):
     return scalar_part * np.exp(exp_part)
 
 
-def plot_mesh(mesh, gauss_distribs, classed_data):
-    pass
-
-
+def plot_mesh(mesh_data, surface_cls, classed_data):
+    data_to_scatter_plot = []
+    for i in range(np.max(surface_cls)+1):
+        mask = surface_cls == i
+        sub_data = mesh_data[mask]
+        data_to_scatter_plot.append(sub_data)
+    data_to_scatter_plot += classed_data.tolist()
+    plot_2D(data_to_scatter_plot)
 
 
 def cov(single_cls_data, cls_middle_value):
