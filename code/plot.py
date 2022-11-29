@@ -5,6 +5,11 @@ import numpy as np
 def plot_2D(*args, **kwargs):
     # plt.plot(args[:, 0], args[:, 1], linestyle="none", color="r", marker="o")
     if args:
+        if kwargs:
+            for key, data in kwargs.items():
+                if key == "title":
+                    plt.title(data)
+
         for data in args[0]:
             plt.scatter(data[:, 0], data[:, 1])
         plt.xlabel("1. column")
@@ -12,7 +17,7 @@ def plot_2D(*args, **kwargs):
         plt.grid()
         plt.show()
 
-    if kwargs:
+    elif kwargs:
         for key, data in kwargs.items():
             if key == "title":
                 plt.title(data)
@@ -29,6 +34,16 @@ def plot_vector(*data):
     for i in data:
         plt.plot(i, scaley="log", marker="o")
     plt.show()
+
+
+def plot_mesh(mesh_data, mesh_cls_idxs, classed_data, **kwargs):
+    data_to_scatter_plot = []
+    for i in range(np.max(mesh_cls_idxs)+1):
+        mask = mesh_cls_idxs == i
+        sub_data = mesh_data[mask]
+        data_to_scatter_plot.append(sub_data)
+    data_to_scatter_plot += classed_data.tolist()
+    plot_2D(data_to_scatter_plot, **kwargs)
 
 
 def generate_mesh(classed_data, num_points=100):
