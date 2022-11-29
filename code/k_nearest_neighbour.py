@@ -1,8 +1,8 @@
+import numpy as np
 from builtins import range
 from builtins import object
 from utils import L2_distance_matrix
 from plot import generate_mesh, plot_mesh
-import numpy as np
 
 
 def knn_classifier(classed_data, plot=True):
@@ -18,7 +18,7 @@ def knn_classifier(classed_data, plot=True):
         plot_mesh(mesh, labels, classed_data, **kwargs)
 
     labels = classifier.predict(mesh, 2)
-    kwargs = {"title": "knn classifier, k = 10"}
+    kwargs = {"title": "knn classifier, k = 2"}
     if plot:
         plot_mesh(mesh, labels, classed_data, **kwargs)
 
@@ -39,17 +39,10 @@ class KNearestNeighbor(object):
         num_test = dists.shape[0]
         y_pred = np.zeros(num_test)
         for i in range(num_test):
+            # select k closest points
             closest_y = self.y_train[np.argsort(dists[i])[0:k]]
 
-            # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-            #########################################################################
-            # TODO:                                                                 #
-            # Now that you have found the labels of the k nearest neighbors, you    #
-            # need to find the most common label in the list closest_y of labels.   #
-            # Store this label in y_pred[i]. Break ties by choosing the smaller     #
-            # label.                                                                #
-            #########################################################################
-
+            # find the most common label in the list closest_y of labels
             y_pred[i] = np.bincount(closest_y).argmax()
 
         return y_pred
