@@ -3,7 +3,7 @@ from utils import L2_distance_matrix
 from plot import generate_mesh, plot_mesh
 
 
-def rosenblatt(classed_data):
+def rosenblatt(classed_data, plot=True):
     delta = 0
     lr_constant = 1
     num_dim = len(classed_data[0][0])
@@ -14,7 +14,6 @@ def rosenblatt(classed_data):
     q_weights = [np.random.randint(-10, 10, size=num_dim+1) for _ in classed_data]
 
     num_iter = 0
-
     for i, q in enumerate(q_weights):
         while True:
             error = 0
@@ -29,18 +28,21 @@ def rosenblatt(classed_data):
                     q = q + lr_constant * x * omega
                     error += 1
             num_iter += 1
-            if num_iter % 2000 == 0 or error == 0:
+            if num_iter % 500 == 0 or error == 0:
+                q_weights[i] = q
                 break
 
     mesh = generate_mesh(classed_data)
     mesh_cls_idxs = np.zeros(mesh.shape[0])-1
     for i, data_point in enumerate(mesh):
         x = np.array([1, *data_point])
-        for q in q_weights:
-            if q.T @ x >= 0:
-                mesh_cls_idxs[i] += 1
+        inequalities = np.array([q.T @ x >= 0 for q in q_weights])
+        if sum(inequalities) == 1:
+            mesh_cls_idxs[i] = np.argwhere(inequalities)
 
-    plot_mesh(mesh, mesh_cls_idxs, classed_data)
+    if plot:
+        kwargs = {"title": "Rosenblatt classifier"}
+        plot_mesh(mesh, mesh_cls_idxs, classed_data, **kwargs)
 
 
 
