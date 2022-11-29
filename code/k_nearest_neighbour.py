@@ -3,8 +3,10 @@ from builtins import range
 from builtins import object
 from utils import L2_distance_matrix
 from plot import generate_mesh, plot_mesh
+from utils import timeit
 
 
+@timeit
 def knn_classifier(classed_data, plot=True):
     classed_data = np.copy(classed_data)
     train_labels = [i for i, single_data in enumerate(classed_data) for _ in single_data]
@@ -13,12 +15,12 @@ def knn_classifier(classed_data, plot=True):
     mesh = np.array(generate_mesh(classed_data))
 
     labels = classifier.predict(mesh, 1)
-    kwargs = {"title": "knn classifier, k = 1"}
+    kwargs = {"title": "K-NN classifier, k = 1"}
     if plot:
         plot_mesh(mesh, labels, classed_data, **kwargs)
 
     labels = classifier.predict(mesh, 2)
-    kwargs = {"title": "knn classifier, k = 2"}
+    kwargs = {"title": "K_NN classifier, k = 2"}
     if plot:
         plot_mesh(mesh, labels, classed_data, **kwargs)
 

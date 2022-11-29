@@ -1,7 +1,9 @@
 from plot import plot_mesh, generate_mesh
 import numpy as np
+from utils import timeit
 
 
+@timeit
 def bayes(classed_data, center_data, plot=True):
     classed_data = np.copy(classed_data)
     cls_middle_values = center_data
