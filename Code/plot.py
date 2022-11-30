@@ -30,10 +30,19 @@ def plot_2D(*args, **kwargs):
         plt.show()
 
 
-def plot_vector(*data):
-    for i in data:
-        plt.plot(i, scaley="log", marker="o")
-    plt.show()
+def plot_1D(*args, **kwargs):
+    if args:
+        if kwargs:
+            for key, data in kwargs.items():
+                if key == "title":
+                    plt.title(data)
+
+        for data in args:
+            plt.plot(data[:], linestyle="none", color="r", marker="o")
+        plt.xlabel("Step")
+        plt.ylabel("Data distances")
+        plt.grid()
+        plt.show()
 
 
 def plot_mesh(mesh_data, mesh_cls_idxs, classed_data, **kwargs):

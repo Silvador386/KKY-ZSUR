@@ -1,14 +1,10 @@
-import math
 import random
 import numpy as np
 from itertools import combinations
-
-
 from utils import timeit
 
 
-@timeit
-def maximin_cluster(data, dists_matrix, q=0.314):
+def maximin_clustering(data, dists_matrix, q=0.3064880670800874):
     dists_matrix = dists_matrix.copy()
     center_idxs = []
 
@@ -30,7 +26,7 @@ def maximin_cluster(data, dists_matrix, q=0.314):
         mins = np.min(dist_vectors, axis=0)
 
         max_idx = np.argmax(mins)
-        max_val = np.max(mins)
+        max_val = mins[max_idx]
 
         combs = combinations(center_idxs, 2)
 
@@ -49,3 +45,25 @@ def maximin_cluster(data, dists_matrix, q=0.314):
     num_cls = len(center_idxs)
 
     return num_cls
+
+
+def select_q_tool(data):
+    from utils import L2_distance_matrix
+
+    good_q = []
+    for _ in range(10):
+        NUM_SAMPLES = 4000
+        data_sample = data[np.random.randint(data.shape[0], size=NUM_SAMPLES)]
+        dist_matrix = L2_distance_matrix(data_sample, data_sample)
+        q_to_select = np.random.random_sample(50)
+        num_cls_out = []
+        for q in q_to_select:
+            num_cls_out.append([maximin_clustering(data, dist_matrix, q), q])
+
+        num_cls_out = np.array(num_cls_out)
+        mask = num_cls_out[:, 0] == 3
+
+        good_q .extend(num_cls_out[mask][:, 1])
+
+    q_average = np.average(good_q)
+    print(q_average)
