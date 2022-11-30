@@ -1,10 +1,10 @@
 import numpy as np
-from code.nn.two_layer_net import TwoLayerNet
-from code.nn.solver import Solver
-from code.plot import generate_mesh, plot_mesh
+from Code.nn.two_layer_net import TwoLayerNet
+from Code.nn.solver import Solver
+from Code.plot import generate_mesh, plot_mesh
 
 
-def run(classed_data):
+def run(classed_data, num_classes):
     classed_data = np.copy(classed_data)
     cls_labels = np.array([i for i, single_data in enumerate(classed_data) for _ in single_data])
     merged_data = np.concatenate(classed_data)
@@ -17,10 +17,9 @@ def run(classed_data):
 
     input_size = 1 * 2
     hidden_size = 50
-    num_classes = 3
-    learning_rate = 0.5
+    learning_rate = 0.1
     regularization_strength = 0
-    number_epochs = 20
+    number_epochs = 50
 
     print(f"Hs:{hidden_size}, lr: {learning_rate}, rg: {regularization_strength}, ne: {number_epochs}")
     model = TwoLayerNet(input_size,

@@ -1,5 +1,5 @@
 from __future__ import print_function, division
-import code.nn.optim as optim
+import Code.nn.optim as optim
 from builtins import range
 from builtins import object
 import pickle as pickle

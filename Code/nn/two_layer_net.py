@@ -1,6 +1,6 @@
 from builtins import object
 
-from code.nn.layer_utils import *
+from Code.nn.layer_utils import *
 
 
 class TwoLayerNet(object):

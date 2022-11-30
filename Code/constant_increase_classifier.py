@@ -1,30 +1,33 @@
 import numpy as np
 from plot import generate_mesh, plot_mesh
+from rosenblatt import predict
 from utils import timeit
 
 
 @timeit
-def rosenblatt(classed_data, plot=True):
+def constant_increase(classed_data, plot=True):
     classed_data = np.copy(classed_data)
     delta = 0
-    lr_constant = 1
-    q_weights, num_iter = train_q_weights(classed_data, delta, lr_constant)
+    beta = 0.1
+    q_weights, num_iter = train_q_weights(classed_data, delta, beta)
 
     mesh = generate_mesh(classed_data)
     mesh_cls_idxs = predict(mesh, q_weights)
 
     if plot:
-        kwargs = {"title": "Rosenblatt classifier"}
+        kwargs = {"title": "Constant increase classifier"}
         plot_mesh(mesh, mesh_cls_idxs, classed_data, **kwargs)
 
     return num_iter
 
 
-def train_q_weights(classed_data, delta, lr_constant):
-    num_dim = len(classed_data[0][0])
+def train_q_weights(classed_data, delta, beta):
+    num_dim = len(classed_data[0][0])+1
+    num_classed = len(classed_data)
     cls_labels = [i for i, single_data in enumerate(classed_data) for _ in single_data]
     merged_data = np.concatenate(classed_data)
-    q_weights = [np.random.randint(-10, 10, size=num_dim+1) for _ in classed_data]
+    q_size = round((num_classed * (num_classed - 1)) / 2)
+    q_weights = [np.random.randint(-10, 10, size=num_dim) for _ in range(q_size)]
 
     num_iter = 0
     for i, q in enumerate(q_weights):
@@ -38,7 +41,7 @@ def train_q_weights(classed_data, delta, lr_constant):
                 condition = q.T @ x * omega
 
                 if condition < delta:
-                    q = q + lr_constant * x * omega
+                    q = q + (beta/sum(x**2)) * x * omega
                     error += 1
             num_iter += 1
             if num_iter % 1000 == 0 or error == 0:
@@ -46,17 +49,3 @@ def train_q_weights(classed_data, delta, lr_constant):
                 break
 
     return q_weights, num_iter
-
-
-def predict(mesh, q_weights):
-    mesh_cls_idxs = np.zeros(mesh.shape[0]) - 1
-    for i, data_point in enumerate(mesh):
-        x = np.array([1, *data_point])
-        inequalities = np.array([q.T @ x >= 0 for q in q_weights])
-        if sum(inequalities) == 1:
-            mesh_cls_idxs[i] = np.argwhere(inequalities)
-    return mesh_cls_idxs
-
-
-
-

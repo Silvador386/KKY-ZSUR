@@ -6,7 +6,7 @@ from utils import timeit
 
 
 @timeit
-def run_classification(data, num_cls, plot_option):
+def run_division(data, num_cls, plot_option):
     out_data = []
     out_total_error = []
 

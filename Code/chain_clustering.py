@@ -7,6 +7,7 @@ from plot import plot_vector
 
 @timeit
 def run_cluster(data, dists_matrix, chain_idx_row=0, plot=False):
+    data = np.copy(data)
     num_vectors = data.shape[0]
     dists_matrix = dists_matrix.copy()
 
