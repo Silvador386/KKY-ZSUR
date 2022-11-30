@@ -27,7 +27,7 @@ def main():
     classed_data, center_data, total_error = data_division.run_division(data_sample, num_cls, PLOT)
 
     # Classification - Run classifiers on the divided (classed) data.
-    classification.run_classifiers(classed_data, center_data, PLOT)
+    # classification.run_classifiers(classed_data, center_data, PLOT)
 
     # Neural network - Run 2-layer net on the classed data.
     neural_network.run(classed_data, num_cls)

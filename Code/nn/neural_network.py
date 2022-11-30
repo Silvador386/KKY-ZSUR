@@ -19,7 +19,8 @@ def run(classed_data, num_classes):
     hidden_size = 50
     learning_rate = 0.1
     regularization_strength = 0
-    number_epochs = 50
+    number_epochs = 100
+    batch_size = 1000
 
     print(f"Hs:{hidden_size}, lr: {learning_rate}, rg: {regularization_strength}, ne: {number_epochs}")
     model = TwoLayerNet(input_size,
@@ -30,7 +31,7 @@ def run(classed_data, num_classes):
                     data,
                     optim_config={"learning_rate": learning_rate},
                     num_epochs=number_epochs,
-                    verbose=True)
+                    batch_size=batch_size)
     solver.train()
 
     val_accuracy = solver.best_val_acc

@@ -1,6 +1,4 @@
-from builtins import range
 import numpy as np
-
 
 
 def affine_forward(x, w, b):
@@ -22,20 +20,11 @@ def affine_forward(x, w, b):
     - cache: (x, w, b)
     """
     out = None
-    ###########################################################################
-    # TODO: Implement the affine forward pass. Store the result in out. You   #
-    # will need to reshape the input into rows.                               #
-    ###########################################################################
-    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
     x_prep = np.reshape(x, (x.shape[0], -1))
     matrix_mul = x_prep.dot(w) + b
     out = matrix_mul
 
-    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
     cache = (x, w, b)
     return out, cache
 
@@ -58,21 +47,12 @@ def affine_backward(dout, cache):
     """
     x, w, b = cache
     dx, dw, db = None, None, None
-    ###########################################################################
-    # TODO: Implement the affine backward pass.                               #
-    ###########################################################################
-    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
     dx = dout @ w.T
     dx = np.reshape(dx, x.shape)
     dw = np.reshape(x, (x.shape[0], -1)).T @ dout
     db = np.sum(dout, axis=0)
 
-
-    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
     return dx, dw, db
 
 
@@ -88,17 +68,9 @@ def relu_forward(x):
     - cache: x
     """
     out = None
-    ###########################################################################
-    # TODO: Implement the ReLU forward pass.                                  #
-    ###########################################################################
-    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
     out = np.maximum(x, 0)
 
-    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
     cache = x
     return out, cache
 
@@ -115,18 +87,10 @@ def relu_backward(dout, cache):
     - dx: Gradient with respect to x
     """
     dx, x = None, cache
-    ###########################################################################
-    # TODO: Implement the ReLU backward pass.                                 #
-    ###########################################################################
-    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
     positive = x > 0
     dx = np.multiply(dout, positive)
 
-    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
     return dx
 
 
@@ -145,12 +109,6 @@ def svm_loss(x, y):
     - dx: Gradient of the loss with respect to x
     """
     loss, dx = None, None
-    ###########################################################################
-    # TODO: Implement loss and gradient for multiclass SVM classification.    #
-    # This will be similar to the svm loss vectorized implementation in       #
-    # cs231n/classifiers/linear_svm.py.                                       #
-    ###########################################################################
-    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
     delta = 1.0
     N = x.shape[0]
@@ -172,10 +130,6 @@ def svm_loss(x, y):
 
     dx /= N
 
-    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
     return loss, dx
 
 
@@ -194,12 +148,7 @@ def softmax_loss(x, y):
     - dx: Gradient of the loss with respect to x
     """
     loss, dx = None, None
-    ###########################################################################
-    # TODO: Implement the loss and gradient for softmax classification. This  #
-    # will be similar to the softmax loss vectorized implementation in        #
-    # cs231n/classifiers/softmax.py.                                          #
-    ###########################################################################
-    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
     shifted_logits = x - np.max(x, axis=1, keepdims=True)
     Z = np.sum(np.exp(shifted_logits), axis=1, keepdims=True)
     log_probs = shifted_logits - np.log(Z)
@@ -210,35 +159,4 @@ def softmax_loss(x, y):
     dx[np.arange(N), y] -= 1
     dx /= N
 
-    # scores = x
-    # scores -= np.max(scores)
-    # scores_e = np.exp(scores)
-    # scores_sums = np.sum(scores_e, axis=1)
-    # correct_scores = scores_e[range(N), y]
-    # loss = np.sum(-np.log(correct_scores / scores_sums))
-    # loss /= N
-    # probs2 = np.exp(scores - np.log(scores_sums[:, np.newaxis]))
-    # probs3 = scores_e / scores_sums[:, np.newaxis]
-
-    """
-    N = x.shape[0]
-    scores = x.T @ y
-    scores -= np.max(scores)
-    correct_scores = scores[np.arange(N), y][:, np.newaxis]
-    loss = -np.log(np.exp(correct_scores) / (np.sum(np.exp(scores))))
-    loss = np.sum(loss)
-    loss /= N
-
-    shifted_logits = x - np.max(x, axis=1, keepdims=True)
-    Z = np.sum(np.exp(shifted_logits), axis=1, keepdims=True)
-    log_probs = shifted_logits - np.log(Z)
-    probs = np.exp(log_probs)
-    dx = probs.copy()
-    dx[np.arange(N), y] -= 1
-    dx /= N
-"""
-    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
     return loss, dx

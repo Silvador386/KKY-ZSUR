@@ -1,14 +1,11 @@
 from __future__ import print_function, division
 import Code.nn.optim as optim
-from builtins import range
-from builtins import object
 import pickle as pickle
 
 import numpy as np
 
 
-
-class Solver(object):
+class Solver:
     """
     A Solver encapsulates all the logic necessary for training classification
     models. The Solver performs stochastic gradient descent using different
@@ -185,12 +182,6 @@ class Solver(object):
             self.model.params[p] = next_w
             self.optim_configs[p] = next_config
 
-    def predict(self, test_data):
-        scores = self.model.predict_cls(test_data)
-        labels_cls = np.argmax(scores, axis=1)
-        return labels_cls
-
-
 
     def _save_checkpoint(self):
         if self.checkpoint_name is None:
@@ -266,11 +257,11 @@ class Solver(object):
             self._step()
 
             # Maybe print training loss
-            if self.verbose and t % self.print_every == 0:
-                print(
-                    "(Iteration %d / %d) loss: %f"
-                    % (t + 1, num_iterations, self.loss_history[-1])
-                )
+            # if self.verbose and t % self.print_every == 0:
+            #     print(
+            #         "(Iteration %d / %d) loss: %f"
+            #         % (t + 1, num_iterations, self.loss_history[-1])
+            #     )
 
             # At the end of every epoch, increment the epoch counter and decay
             # the learning rate.
@@ -295,7 +286,7 @@ class Solver(object):
                 self.val_acc_history.append(val_acc)
                 self._save_checkpoint()
 
-                if self.verbose:
+                if self.verbose and self.epoch % 10 == 0:
                     print(
                         "(Epoch %d / %d) train acc: %f; val_acc: %f"
                         % (self.epoch, self.num_epochs, train_acc, val_acc)
@@ -310,3 +301,8 @@ class Solver(object):
 
         # At the end of training swap the best params into the model
         self.model.params = self.best_params
+
+    def predict(self, test_data):
+        scores = self.model.loss(test_data, y=None)
+        labels_cls = np.argmax(scores, axis=1)
+        return labels_cls
