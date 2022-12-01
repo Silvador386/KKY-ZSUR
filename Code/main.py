@@ -4,9 +4,12 @@ import clustering
 import data_division
 import classification
 from nn import neural_network
-from utils import timeit
+from utils import timeit, select_2params_tool
+
+
 from maximin_clustering import select_q_tool
-from agglomerative_clustering import select_params_tool
+from agglomerative_clustering import agglomerate_clustering
+from chain_clustering import chain_clustering
 
 
 DATA_PATH = "../data/data.txt"
@@ -21,18 +24,18 @@ def main():
     data_sample = data[np.random.randint(data.shape[0], size=NUM_SAMPLES)]
 
     # select_q_tool(data)
-    # select_params_tool(data)
+    # select_2params_tool(data, chain_clustering)
 
     # Clustering - Predict the number of classes.
     num_cls = 3
-    num_cls = clustering.run_clustering(data_sample, PLOT)
+    num_cls = clustering.run_clustering(data_sample, plot=False)
     print(f"Number of classes:{num_cls}")
 
     # Division - Divide data point to classes.
-    classed_data, center_data, total_error = data_division.run_division(data_sample, num_cls, PLOT)
+    classed_data, center_data, total_error = data_division.run_division(data_sample, num_cls, plot=PLOT)
 
     # Classification - Run classifiers on the divided (classed) data.
-    classification.run_classifiers(classed_data, center_data, PLOT)
+    classification.run_classifiers(classed_data, center_data, plot=PLOT)
 
     # Neural network - Run 2-layer net on the classed data.
     neural_network.run(classed_data, num_cls)

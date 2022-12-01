@@ -8,9 +8,9 @@ from utils import timeit
 
 
 @timeit
-def run_classifiers(classed_data, center_data, plot_option=False):
-    bayes(classed_data, center_data, plot_option)
-    vector_quantization(classed_data, center_data, plot_option)
+def run_classifiers(classed_data, center_data, plot=False):
+    bayes(classed_data, center_data, plot)
+    vector_quantization(classed_data, center_data, plot)
     knn_classifier(classed_data)
     num_iter = rosenblatt(classed_data)
     print(num_iter)

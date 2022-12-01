@@ -41,7 +41,7 @@ def k_means_div(data, num_cls, plot=False):
         data2plot_named["title"] = "K - Means"
         plot_2D(**data2plot_named)
 
-    return classed_data, new_center_data, error_cls
+    return classed_data, new_center_data, sum(error_cls)
 
 
 

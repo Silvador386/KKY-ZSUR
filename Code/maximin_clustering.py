@@ -4,7 +4,7 @@ from itertools import combinations
 from utils import timeit
 
 
-def maximin_clustering(data, dists_matrix, q=0.3064880670800874):
+def maximin_clustering(data, dists_matrix, q=0.314):
     dists_matrix = dists_matrix.copy()
     center_idxs = []
 
