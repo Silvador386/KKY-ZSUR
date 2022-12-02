@@ -1,6 +1,4 @@
 import numpy as np
-from builtins import range
-from builtins import object
 from utils import L2_distance_matrix
 from plot import generate_mesh, plot_mesh
 from utils import timeit
@@ -20,12 +18,12 @@ def knn_classifier(classed_data, plot=True):
         plot_mesh(mesh, labels, classed_data, **kwargs)
 
     labels = classifier.predict(mesh, 2)
-    kwargs = {"title": "K_NN classifier, k = 2"}
+    kwargs = {"title": "K-NN classifier, k = 2"}
     if plot:
         plot_mesh(mesh, labels, classed_data, **kwargs)
 
 
-class KNearestNeighbor(object):
+class KNearestNeighbor:
     """ a kNN classifier with L2 distance """
 
     def train(self, classed_data, labels):

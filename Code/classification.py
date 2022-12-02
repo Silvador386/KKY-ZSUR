@@ -13,7 +13,7 @@ def run_classifiers(classed_data, center_data, plot=False):
     vector_quantization(classed_data, center_data, plot)
     knn_classifier(classed_data)
     num_iter = rosenblatt(classed_data)
-    print(num_iter)
+    print(f"Rosenblatt - number of iterations:        {num_iter}")
     num_iter = constant_increase(classed_data)
-    print(num_iter)
+    print(f"Constant increase - number of iterations: {num_iter}")
 

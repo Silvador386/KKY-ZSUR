@@ -7,7 +7,7 @@ from plot import plot_1D
 
 # @timeit
 def chain_clustering(data, dists_matrix, chain_idx_row=0, plot=False, a=1, b=2):
-    a, b = 2.5, 3.9
+    a, b = 2, 4
     data = np.copy(data)
     num_vectors = data.shape[0]
     dists_matrix = dists_matrix.copy()
@@ -36,11 +36,10 @@ def chain_clustering(data, dists_matrix, chain_idx_row=0, plot=False, a=1, b=2):
 def num_cls_step(distances, plot, a, b):
     num_cls = 1
     distances = np.array(distances)
-    distances_normed = distances / np.linalg.norm(distances)
 
-    distances_normed = np.sort(distances_normed)
+    distances = np.sort(distances)
 
-    step_diff = distances_normed[1:] - distances_normed[:-1]
+    step_diff = distances[1:] - distances[:-1]
     step_avg = np.average(step_diff)
     step_std = np.std(step_diff)
 
@@ -50,9 +49,9 @@ def num_cls_step(distances, plot, a, b):
 
     if plot:
         kwargs = {"title": "Chain clustering - distances"}
-        plot_1D(np.sort(distances), **kwargs)
-        kwargs = {"title": "Chain clustering - step diff"}
+        plot_1D((distances), **kwargs)
+        kwargs = {"title": "Chain clustering - step diffs"}
         plot_1D(step_diff, **kwargs)
 
-    cache = (step_avg, step_std, distances_normed)
+    cache = (step_avg, step_std, distances)
     return num_cls, cache

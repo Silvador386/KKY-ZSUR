@@ -14,14 +14,15 @@ def run_clustering(data, plot):
 
     num_cls, cache = agglomerate_clustering(data, dists_matrix, plot)
     cls_counts.append(num_cls)
-    print(f"Num_cls agg: {num_cls}, Avg: {cache[0]}, Std: {cache[1]}")
+    print(f"Num_cls agg: {num_cls}")
 
     chain_cls = []
-    for i in range(6):
+    for i in range(8):
         num_cls, cache = chain_clustering(data, dists_matrix, random.randint(0, data.shape[0] - 1), plot)
         chain_cls.append(num_cls)
-        print(f"Num_cls chain: {num_cls}, Avg: {cache[0]}, Std: {cache[1]}")
+        print(f"Num_cls chain: {num_cls}")
     chain_avg = round(np.average(np.array(chain_cls)))
+    print(f"Num_cls chain avg: {chain_avg}")
     cls_counts.append(chain_avg)
 
     num_cls = maximin_clustering(data, dists_matrix)

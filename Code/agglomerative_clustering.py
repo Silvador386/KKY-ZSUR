@@ -4,9 +4,9 @@ from tqdm import tqdm
 from plot import plot_1D
 
 
-@timeit
+# @timeit
 def agglomerate_clustering(data, dists_matrix, plot=False, a=2, b=3):
-    a, b = 2.5, 3
+    a, b = 3, 4
     dists_matrix = dists_matrix.copy()
 
     dist_levels = []

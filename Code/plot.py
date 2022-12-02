@@ -12,9 +12,10 @@ def plot_2D(*args, **kwargs):
 
         for data in args[0]:
             plt.scatter(data[:, 0], data[:, 1])
-        plt.xlabel("1. column")
-        plt.ylabel("2. column")
+        plt.xlabel("1. feature")
+        plt.ylabel("2. feature")
         plt.grid()
+        plt.savefig(f"../output/{kwargs['title']}.png")
         plt.show()
 
     elif kwargs:
@@ -24,9 +25,10 @@ def plot_2D(*args, **kwargs):
                 continue
             plt.scatter(data[:, 0], data[:, 1], label=key)
         plt.legend()
-        plt.xlabel("1. column")
-        plt.ylabel("2. column")
+        plt.xlabel("1. feature")
+        plt.ylabel("2. feature")
         plt.grid()
+        plt.savefig(f"../output/{kwargs['title']}.png")
         plt.show()
 
 
@@ -42,6 +44,7 @@ def plot_1D(*args, **kwargs):
         plt.xlabel("Step")
         plt.ylabel("Data distances")
         plt.grid()
+        plt.savefig(f"../output/{kwargs['title']}.png")
         plt.show()
 
 
@@ -55,7 +58,7 @@ def plot_mesh(mesh_data, mesh_cls_idxs, classed_data, **kwargs):
     plot_2D(data_to_scatter_plot, **kwargs)
 
 
-def generate_mesh(classed_data, num_points=100):
+def generate_mesh(classed_data, num_points=128):
     merged_data = np.concatenate(classed_data)
     max_values = np.max(merged_data, axis=0)
     min_values = np.min(merged_data, axis=0)

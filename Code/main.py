@@ -12,8 +12,8 @@ from agglomerative_clustering import agglomerate_clustering
 from chain_clustering import chain_clustering
 
 
-DATA_PATH = "../data/data.txt"
-NUM_SAMPLES = 1200
+DATA_PATH = "../data/data2.txt"
+NUM_SAMPLES = 1000
 PLOT = True
 
 
@@ -27,9 +27,9 @@ def main():
     # select_2params_tool(data, chain_clustering)
 
     # Clustering - Predict the number of classes.
-    num_cls = 3
-    num_cls = clustering.run_clustering(data_sample, plot=False)
-    print(f"Number of classes:{num_cls}")
+    num_cls = 4
+    # num_cls = clustering.run_clustering(data_sample, plot=PLOT)
+    print(f"Final number of classes:{num_cls}")
 
     # Division - Divide data point to classes.
     classed_data, center_data, total_error = data_division.run_division(data_sample, num_cls, plot=PLOT)
