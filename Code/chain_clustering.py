@@ -1,4 +1,5 @@
 import numpy as np
+import random
 from utils import timeit
 from tqdm import tqdm
 
@@ -6,15 +7,16 @@ from plot import plot_1D
 
 
 # @timeit
-def chain_clustering(data, dists_matrix, chain_idx_row=0, plot=False, a=1, b=2):
+def chain_clustering(data, dists_matrix, plot=False, a=1, b=2):
     a, b = 2, 4
     data = np.copy(data)
     num_vectors = data.shape[0]
     dists_matrix = dists_matrix.copy()
 
+    chain_idx_row = random.randint(0, data.shape[0] - 1)
     distances = []
 
-    for _ in tqdm(range(num_vectors)):
+    for _ in range(num_vectors):
         mask = np.zeros_like(dists_matrix)
         np.fill_diagonal(mask, np.infty)
 
@@ -49,9 +51,8 @@ def num_cls_step(distances, plot, a, b):
 
     if plot:
         kwargs = {"title": "Chain clustering - distances"}
-        plot_1D((distances), **kwargs)
+        plot_1D(distances, **kwargs)
         kwargs = {"title": "Chain clustering - step diffs"}
         plot_1D(step_diff, **kwargs)
 
-    cache = (step_avg, step_std, distances)
-    return num_cls, cache
+    return num_cls

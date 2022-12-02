@@ -10,7 +10,7 @@ def agglomerate_clustering(data, dists_matrix, plot=False, a=2, b=3):
     dists_matrix = dists_matrix.copy()
 
     dist_levels = []
-    for _ in tqdm(range(dists_matrix.shape[0]-1)):
+    for _ in range(dists_matrix.shape[0]-1):
         mask = np.zeros_like(dists_matrix)
         np.fill_diagonal(mask, np.infty)
         min_row, min_col = np.unravel_index(np.argmin(dists_matrix + mask), dists_matrix.shape)
@@ -44,8 +44,7 @@ def num_cls_dist(levels, plot, a, b):
         kwargs = {"title": "Agglomerative clustering - distances"}
         plot_1D(distances, **kwargs)
 
-    cache = (dist_avg, dist_std, distances)
-    return num_cls, cache
+    return num_cls
 
 
 # def agg_cluster(data, dists_matrix, plot=False):
