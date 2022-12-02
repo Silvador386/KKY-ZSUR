@@ -68,7 +68,7 @@ class TwoLayerNet:
             return scores
 
         loss, grads = 0, {}
-        loss, dscores = softmax_loss(scores, y)
+        loss, dscores = svm_loss(scores, y)
         loss += 0.5*self.reg*(np.sum(self.params["W1"] ** 2) + np.sum(self.params["W2"] ** 2))
 
         # Backpropagation

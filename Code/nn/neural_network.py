@@ -16,11 +16,11 @@ def run(classed_data, num_classes):
     }
 
     input_size = 1 * 2
-    hidden_size = 200
+    hidden_size = 100
     learning_rate = 0.02
     regularization_strength = 0.001
     number_epochs = 50
-    batch_size = 100
+    batch_size = 500
 
     print(f"Hs:{hidden_size}, lr: {learning_rate}, rg: {regularization_strength}, ne: {number_epochs}")
     model = TwoLayerNet(input_size,
