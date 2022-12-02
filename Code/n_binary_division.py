@@ -1,6 +1,5 @@
 import numpy as np
 import random
-
 from utils import L2_distance_matrix, find_cls_data_centers
 from plot import plot_2D
 
@@ -53,5 +52,3 @@ def cluster_err(cls_center_data, num_cls=2):
         new_data.append(data[center_idxs])
 
     return new_data, center_idxs_list, error_cls
-
-

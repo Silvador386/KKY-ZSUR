@@ -1,8 +1,6 @@
 import numpy as np
 import random
 from utils import timeit
-from tqdm import tqdm
-
 from plot import plot_1D
 
 

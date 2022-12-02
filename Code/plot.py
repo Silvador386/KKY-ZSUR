@@ -3,7 +3,6 @@ import numpy as np
 
 
 def plot_2D(*args, **kwargs):
-    # plt.plot(args[:, 0], args[:, 1], linestyle="none", color="r", marker="o")
     if args:
         if kwargs:
             for key, data in kwargs.items():
@@ -15,7 +14,7 @@ def plot_2D(*args, **kwargs):
         plt.xlabel("1. feature")
         plt.ylabel("2. feature")
         plt.grid()
-        plt.savefig(f"../output/{kwargs['title']}.png")
+        # plt.savefig(f"../output/{kwargs['title']}.png")
         plt.show()
 
     elif kwargs:
@@ -28,7 +27,7 @@ def plot_2D(*args, **kwargs):
         plt.xlabel("1. feature")
         plt.ylabel("2. feature")
         plt.grid()
-        plt.savefig(f"../output/{kwargs['title']}.png")
+        # plt.savefig(f"../output/{kwargs['title']}.png")
         plt.show()
 
 
@@ -44,7 +43,7 @@ def plot_1D(*args, **kwargs):
         plt.xlabel("Step")
         plt.ylabel("Data distances")
         plt.grid()
-        plt.savefig(f"../output/{kwargs['title']}.png")
+        # plt.savefig(f"../output/{kwargs['title']}.png")
         plt.show()
 
 

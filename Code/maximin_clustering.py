@@ -1,7 +1,6 @@
 import random
 import numpy as np
 from itertools import combinations
-from utils import timeit
 
 
 def maximin_clustering(data, dists_matrix, q=0.302, plot=False):
