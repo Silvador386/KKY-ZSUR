@@ -34,21 +34,21 @@ def run(data, num_cls, plot=False):
 
 def cluster_err(cls_center_data, num_cls=2):
     data = cls_center_data.copy()
-    center_idxs_list = [[value] for value in random.sample(range(max(data.shape[0], num_cls)), num_cls)]
-    center_data = data[center_idxs_list].reshape(-1, 2)
+    data_idxs_lists_to_centers = [[value] for value in random.sample(range(max(data.shape[0], num_cls)), num_cls)]
+    center_data = data[[idx for data_idxs_of_center in data_idxs_lists_to_centers for idx in data_idxs_of_center]]
 
     dists_matrix = L2_distance_matrix(data, center_data)
 
-    error_cls = [0 for i, _ in enumerate(center_idxs_list)]
+    error_cls = [0 for i, _ in enumerate(data_idxs_lists_to_centers)]
 
     for idx, row in enumerate(dists_matrix):
         min_row_idx = np.argmin(row)
-        if idx not in center_idxs_list[min_row_idx]:
+        if idx not in data_idxs_lists_to_centers[min_row_idx]:
             error_cls[min_row_idx] += row[min_row_idx]
-            center_idxs_list[min_row_idx].append(idx)
+            data_idxs_lists_to_centers[min_row_idx].append(idx)
 
     new_data = []
-    for center_idxs in center_idxs_list:
+    for center_idxs in data_idxs_lists_to_centers:
         new_data.append(data[center_idxs])
 
-    return new_data, center_idxs_list, error_cls
+    return new_data, data_idxs_lists_to_centers, error_cls
