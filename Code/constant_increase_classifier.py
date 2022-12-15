@@ -1,6 +1,6 @@
 import numpy as np
 from plot import generate_mesh, plot_mesh
-from rosenblatt import predict
+from rosenblatt import predict, transform
 from utils import timeit
 
 
@@ -9,10 +9,10 @@ def constant_increase(classed_data, plot=True):
     classed_data = np.copy(classed_data)
     delta = 0
     beta = 0.1
-    q_weights, num_iter = train_q_weights(classed_data, delta, beta)
+    q_weights, num_iter, cache = train_q_weights(classed_data, delta, beta)
 
     mesh = generate_mesh(classed_data)
-    mesh_cls_idxs = predict(mesh, q_weights)
+    mesh_cls_idxs = predict(mesh, q_weights, cache)
 
     if plot:
         kwargs = {"title": "Constant increase classifier"}
@@ -26,6 +26,9 @@ def train_q_weights(classed_data, delta, beta):
     num_classed = len(classed_data)
     cls_labels = [i for i, single_data in enumerate(classed_data) for _ in single_data]
     merged_data = np.concatenate(classed_data)
+    # Transform
+    merged_data, cache = transform(merged_data)
+
     q_size = round((num_classed * (num_classed - 1)) / 2)
     q_weights = [np.random.randint(-10, 10, size=num_dim) for _ in range(q_size)]
 
@@ -48,4 +51,4 @@ def train_q_weights(classed_data, delta, beta):
                 q_weights[i] = q
                 break
 
-    return q_weights, num_iter
+    return q_weights, num_iter, cache
