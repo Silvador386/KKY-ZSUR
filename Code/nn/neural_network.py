@@ -9,27 +9,26 @@ def run(classed_data, num_classes):
     cls_labels = np.array([i for i, single_data in enumerate(classed_data) for _ in single_data])
     merged_data = np.concatenate(classed_data)
 
-
     data = {
         'X_train': merged_data,
         'y_train': cls_labels,
-        'X_val': merged_data,
+        'X_val': np.copy(merged_data),
         'y_val': cls_labels
     }
 
     input_size = 1 * 2
     hidden_size = 100
-    learning_rate = 0.2
+    learning_rate = 0.02
     regularization_strength = 0.001
-    number_epochs = 500
+    number_epochs = 100
     batch_size = 500
 
     print(f"Hs:{hidden_size}, lr: {learning_rate}, rg: {regularization_strength}, ne: {number_epochs}")
     model = TwoLayerNet(input_size,
                         hidden_size,
                         num_classes,
-                        reg=regularization_strength,
-                        weight_scale=1e-1)
+                        reg=regularization_strength
+                        )
     solver = Solver(model,
                     data,
                     optim_config={"learning_rate": learning_rate},

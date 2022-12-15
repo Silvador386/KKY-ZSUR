@@ -127,6 +127,9 @@ class Solver:
         self.print_every = kwargs.pop("print_every", 10)
         self.verbose = kwargs.pop("verbose", True)
 
+        # Transform data to have nice mathematical properties:
+        self.transform = kwargs.pop("transform", True)
+
         # Throw an error if there are extra keyword arguments
         if len(kwargs) > 0:
             extra = ", ".join('"%s"' % k for k in list(kwargs.keys()))
@@ -158,6 +161,12 @@ class Solver:
         for p in self.model.params:
             d = {k: v for k, v in self.optim_config.items()}
             self.optim_configs[p] = d
+
+        if self.transform:
+            X_avg = np.average(np.concatenate((self.X_train, self.X_val)), axis=0)
+            self.X_train -= X_avg
+            self.X_val -= X_avg
+            self.transform_cache = (X_avg )
 
     def _step(self):
         """
@@ -302,6 +311,10 @@ class Solver:
         self.model.params = self.best_params
 
     def predict(self, test_data):
+        test_data = np.copy(test_data)
+        if self.transform:
+            data_avg = self.transform_cache
+            test_data -= data_avg
         scores = self.model.loss(test_data, y=None)
         labels_cls = np.argmax(scores, axis=1)
         return labels_cls
