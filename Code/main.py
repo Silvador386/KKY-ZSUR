@@ -6,7 +6,7 @@ from nn import neural_network
 from utils import timeit
 
 
-DATA_PATH = "../data/data.txt"
+DATA_PATH = "../data/dataN.txt"
 PLOT = True
 
 
@@ -16,7 +16,8 @@ def main():
     data = load.load_data(data_path=DATA_PATH)
 
     # Clustering - Predict the number of classes.
-    num_cls = clustering.run_clustering(data, plot=PLOT)
+    num_cls = 3
+    # num_cls = clustering.run_clustering(data, plot=PLOT)
     print(f"Final number of classes:     {num_cls}")
 
     # Division - Divide data point to classes.

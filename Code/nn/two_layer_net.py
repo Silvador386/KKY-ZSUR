@@ -58,6 +58,7 @@ class TwoLayerNet:
         """
         scores = None
 
+
         # Forward pass
         out1, cache1 = affine_relu_forward(X, self.params["W1"], self.params["b1"])
         out2, cache2 = affine_forward(out1, self.params["W2"], self.params["b2"])

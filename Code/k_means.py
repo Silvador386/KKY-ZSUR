@@ -6,22 +6,22 @@ from plot import plot_2D
 
 def k_means_div(data, num_cls, plot=False):
     data = data.copy()
-    center_idxs_list = [[value] for value in random.sample(range(max(data.shape[0], num_cls)), num_cls)]
-    center_data = data[center_idxs_list].reshape(-1, 2)
+    data_idxs_lists_to_centers = [[value] for value in random.sample(range(max(data.shape[0], num_cls)), num_cls)]
+    center_data = data[[idx for data_idxs_of_center in data_idxs_lists_to_centers for idx in data_idxs_of_center]]
 
     while True:
         dists_matrix = L2_distance_matrix(data, center_data)
 
-        error_cls = [0 for i, _ in enumerate(center_idxs_list)]
+        error_cls = [0 for i, _ in enumerate(data_idxs_lists_to_centers)]
 
         for idx, row in enumerate(dists_matrix):
             min_row_idx = np.argmin(row)
-            if idx not in center_idxs_list[min_row_idx]:
+            if idx not in data_idxs_lists_to_centers[min_row_idx]:
                 error_cls[min_row_idx] += row[min_row_idx]
-                center_idxs_list[min_row_idx].append(idx)
+                data_idxs_lists_to_centers[min_row_idx].append(idx)
 
         classed_data = []
-        for center_idxs in center_idxs_list:
+        for center_idxs in data_idxs_lists_to_centers:
             classed_data.append(data[center_idxs])
 
         new_center_data = find_cls_data_centers(classed_data)
@@ -31,7 +31,7 @@ def k_means_div(data, num_cls, plot=False):
         if (new_center_data == center_data).all():
             break
 
-        center_idxs_list = [[] for _ in range(num_cls)]
+        data_idxs_lists_to_centers = [[] for _ in range(num_cls)]
         center_data = new_center_data
 
 

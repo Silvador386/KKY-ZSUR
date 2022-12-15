@@ -49,7 +49,7 @@ def run_further(data, num_cls, out_data, out_total_error, plot=False):
         out_data.append((classed_data, center_data))
         out_total_error.append(total_error)
 
-        classed_data, center_data, total_error = optimize(classed_data, center_data, plot=plot)
+        classed_data, center_data, total_error = k_means.k_means_div(data, num_cls, plot=plot)
         out_data.append((classed_data, center_data))
         out_total_error.append(total_error)
 
